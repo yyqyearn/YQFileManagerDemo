@@ -3,42 +3,56 @@
 通过简单封装，实现比较快捷的沙盒操作，比如创建文件夹、保存数据、读取数据、删除数据等。
 
 
-举例：
-引入头文件YQFileManager.h
-保存字符串：
+#基本方法
+#保存数据
 
-  //配置存取信息
-    NSString *string = @"123";
-    NSString *folderName = @"StringFolder";
-    NSString *fileName = @"StringFile";
-    DirectoryType dt = DTypeDocuments;
-    NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
-    
-    //存储
-    NSError *error = nil;
-    [[YQFileManager shareManager] writeData:data fileName:fileName folderName:folderName dType:dt error:&error];
-    NSLog(@"存储内容 = %@\n错误 = %@",string,error.localizedDescription);
-    
-    //读取
-    NSData *loadData = [[YQFileManager shareManager] loadDataWithFileName:fileName folderName:folderName dType:dt];
-    NSString *loadString = [[NSString alloc]initWithData:loadData encoding:NSUTF8StringEncoding];
-    NSLog(@"取出结果 = %@",loadString);
+ *  写入文件到指定文件夹
+ *
+ *  @param data       写入的数据
+ *  @param fileName   为文件命名
+ *  @param folderName 文件夹名称/如果不存在，将自动创建
+ *  @param dType      文件存储类型
+ *  @param error      错误信息
+ *
+ *  @return 是否写入成功
+ */
+- (BOOL)writeData:(NSData*)data
+         fileName:(NSString*)fileName
+       folderName:(NSString*)folderName
+            dType:(DirectoryType)dType
+            error:(NSError **)error;
 
-保存数组
 
- //配置存取信息
-    NSArray *array = @[@"111",@"222",@3,@4];
-    NSString *folderName = @"ArrayFolder";
-    NSString *fileName= @"ArrayFile";
-    DirectoryType dt = DTypeCaches;
-    NSData *data =[NSKeyedArchiver archivedDataWithRootObject:array];
-    
-    //存储
-    NSError *error = nil;
-    [[YQFileManager shareManager] writeData:data fileName:fileName folderName:folderName dType:dt error:&error];
-    NSLog(@"存储内容 = %@\n错误 = %@",array,error.localizedDescription);
-    
-    //读取
-    NSData *loadData = [[YQFileManager shareManager] loadDataWithFileName:fileName folderName:folderName dType:dt];
-    NSArray *loadArray = [NSKeyedUnarchiver unarchiveObjectWithData:loadData];
-    NSLog(@"取出结果 = %@",loadArray);
+
+#读取数据
+
+ *  读取指定文件
+ *
+ *  @param fileName   文件名
+ *  @param folderName 所属文件夹名
+ *  @param dType      文件存储类型
+ *
+ *  @return 取出的文件，错误则为nil
+ */
+- (NSData*)loadDataWithFileName:(NSString*)fileName
+                folderName:(NSString*)folderName
+                     dType:(DirectoryType)dType;
+
+
+
+
+#删除数据
+
+ *  删除指定文件
+ *
+ *  @param fileName   文件名
+ *  @param folderName 所属文件夹名
+ *  @param dType      存储类型
+ *  @param error      错误信息
+ *
+ *  @return 是否成功删除
+ */
+- (BOOL)removeItemsWithFileName:(NSString *)fileName
+                     folderName:(NSString *)folderName
+                          dType:(DirectoryType)dType
+                          error:(NSError **)error;
