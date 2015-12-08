@@ -6,6 +6,7 @@
 举例：
 引入头文件YQFileManager.h
 保存字符串：
+
   //配置存取信息
     NSString *string = @"123";
     NSString *folderName = @"StringFolder";
@@ -24,6 +25,7 @@
     NSLog(@"取出结果 = %@",loadString);
 
 保存数组
+
  //配置存取信息
     NSArray *array = @[@"111",@"222",@3,@4];
     NSString *folderName = @"ArrayFolder";
